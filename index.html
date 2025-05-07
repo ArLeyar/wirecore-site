@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WIRECORE</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    @font-face {
+      font-family: 'PixelFont';
+      src: url('fonts/PressStart2P-Regular.ttf') format('truetype');
+    }
+
+	body {
+      margin: 0;
+      font-family: 'PixelFont', monospace;
+      background: #000;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 2em 1em;
+      background-image: url('/mnt/data/7cf747bd-9b3e-41a0-9af9-7ee227db6988.png');
+      background-size: cover;
+      background-position: center;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      letter-spacing: 4px;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 0.5em 1em;
+    }
+
+    p {
+      max-width: 700px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 1.5em 2em;
+      font-size: 1em;
+      margin-bottom: 2em;
+      line-height: 1.8em;
+    }
+
+    form {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 2em;
+      border: 1px solid #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      width: 300px;
+      margin-bottom: 3em;
+      font-family: 'PixelFont', monospace;
+    }
+
+    input[type="text"] {
+      padding: 0.5em;
+      font-size: 1em;
+      border: none;
+      outline: none;
+      font-family: 'PixelFont', monospace;
+    }
+
+    button {
+      padding: 0.5em;
+      font-size: 1em;
+      background-color: #ff4dd2;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-family: 'PixelFont', monospace;
+    }
+
+    button:hover {
+      background-color: #e600ac;
+    }
+
+    .gif-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1em;
+      width: 100%;
+      max-width: 1000px;
+      padding: 2em 0;
+    }
+
+    .gif-grid img {
+      width: 100%;
+      height: auto;
+      image-rendering: pixelated;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 1em;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.7);
+      width: 100%;
+      max-width: 700px;
+      border: 1px solid #ff4dd2;
+    }
+
+    .twitter-link {
+      font-family: 'PixelFont', monospace;
+      color: #ff4dd2;
+      text-decoration: none;
+      font-size: 1.1em;
+      display: inline-block;
+      padding: 8px 16px;
+      border: 1px solid #ff4dd2;
+      transition: all 0.3s ease;
+    }
+
+    .twitter-link:hover {
+      text-decoration: none;
+      background: #ff4dd2;
+      color: black;
+    }
+    
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.9);
+      border: 2px solid #ff4dd2;
+      padding: 20px;
+      text-align: center;
+      z-index: 100;
+      display: none;
+      font-family: 'PixelFont', monospace;
+    }
+    
+    .popup-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+  <h1>WIRECORE</h1>
+  <p>Shimmering in the wireframe distorted mesh.<br />Woven into glitched digital void.<br />This is Wirecore.</p>
+  <form id="wirecore-form" method="POST" action="https://script.google.com/macros/s/AKfycbx9b2XKJ--LJ-uAc1UyiWhYPEcunzxRDlrYWhncTd3E8RT3q8bR_c_didFv-Fu8n_8/exec">
+    <input type="text" name="twitter" placeholder="Twitter handle" required />
+    <input type="text" name="wallet" placeholder="Wallet address" required />
+    <button type="submit">Submit</button>
+  </form>
+
+  <div class="popup" id="success-popup">
+    <span class="popup-close" onclick="closePopup('success-popup')">×</span>
+    <p>Form submitted successfully!</p>
+  </div>
+  
+  <div class="popup" id="error-popup">
+    <span class="popup-close" onclick="closePopup('error-popup')">×</span>
+    <p>Error submitting form. Please try again later.</p>
+  </div>
+
+  <div class="gif-grid" id="gifGrid"></div>
+
+  <footer>
+    <a class="twitter-link" href="https://x.com/slava3ngl" target="_blank">
+      Follow us on Twitter/X
+    </a>
+  </footer>
+
+  <script>
+    // Dynamically load gifs from /gifs folder
+    const gifCount = 12; // Adjust this number based on how many gifs you have
+    const gifGrid = document.getElementById('gifGrid');
+    for (let i = 1; i <= gifCount; i++) {
+      const img = document.createElement('img');
+      img.src = `gifs/${i}.gif`;
+      img.alt = `Wirecore GIF ${i}`;
+      gifGrid.appendChild(img);
+    }
+    
+    // Form submission handling
+    document.getElementById('wirecore-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const url = this.getAttribute('action');
+      
+      fetch(url, {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'ok') {
+          showPopup('success-popup');
+          this.reset();
+        } else {
+          showPopup('error-popup');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        showPopup('error-popup');
+      });
+    });
+    
+    function showPopup(id) {
+      document.getElementById(id).style.display = 'block';
+    }
+    
+    function closePopup(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+  </script>
+</body>
+</html>
